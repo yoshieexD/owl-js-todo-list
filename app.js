@@ -30,11 +30,9 @@ class Root extends Component {
             this.state.tasks[index] = newTask.trim();
         }
     }
-    toggleTask = (index) => {
-        const isChecked = this.state.taskChecked[index] || false;
-        console.log(this.state.taskChecked[index])
-        console.log(isChecked)
-        this.state.taskChecked[index] = !isChecked;
+    toggleTask = (str) => {
+        const isChecked = this.state.taskChecked[str] || false;
+        this.state.taskChecked[str] = !isChecked;
     }
 
 
@@ -57,12 +55,12 @@ class Root extends Component {
                             <input 
                                 type="checkbox" 
                                 class="form-check-input"
-                                t-att-id="'checkbox_' + task_index"
-                                t-att-checked="state.taskChecked[task_index]"
-                                t-on-change="() => toggleTask(task_index)"
+                                t-att-id="'checkbox_' + task"
+                                t-att-checked="state.taskChecked[task]"
+                                t-on-change="() => toggleTask(task)"
                             />
                             <label class="form-check-label" t-att-for="'checkbox_' + task_index">
-                               <span t-attf-class="{{ state.taskChecked[task_index] ? 'text-muted text-decoration-line-through' : '' }}">
+                               <span t-attf-class="{{ state.taskChecked[task] ? 'text-muted text-decoration-line-through' : '' }}">
                                     <t t-esc="task"/>
                                 </span>
                             </label>
