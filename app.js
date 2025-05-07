@@ -6,6 +6,7 @@ class Root extends Component {
         this.state = useState({
             text: '',
             tasks: [],
+            taskChecked: {}
         });
     }
 
@@ -29,6 +30,13 @@ class Root extends Component {
             this.state.tasks[index] = newTask.trim();
         }
     }
+    toggleTask = (index) => {
+        const isChecked = this.state.taskChecked[index] || false;
+        console.log(this.state.taskChecked[index])
+        console.log(isChecked)
+        this.state.taskChecked[index] = !isChecked;
+    }
+
 
 
     static template = xml`
@@ -45,7 +53,21 @@ class Root extends Component {
             />
             <ul class="list-group">
                 <li t-foreach="state.tasks" t-as="task" t-key="task_index" class="list-group-item d-flex justify-content-between align-items-center">
-                    <t t-esc="task"/>
+                    <div class="form-check">
+                            <input 
+                                type="checkbox" 
+                                class="form-check-input"
+                                t-att-id="'checkbox_' + task_index"
+                                t-att-checked="state.taskChecked[task_index]"
+                                t-on-change="() => toggleTask(task_index)"
+                            />
+                            <label class="form-check-label" t-att-for="'checkbox_' + task_index">
+                               <span t-attf-class="{{ state.taskChecked[task_index] ? 'text-muted text-decoration-line-through' : '' }}">
+                                    <t t-esc="task"/>
+                                </span>
+                            </label>
+                        </div>
+                            
                     <div>
                         <button 
                             t-on-click="() => updateTask(task_index)"
